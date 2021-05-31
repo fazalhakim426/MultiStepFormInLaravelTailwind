@@ -26,7 +26,7 @@ Route::resources([
     'StepUI' => StepUIController::class,
     'posts' => StepUIController::class,
 ]);  
-
+Route::get('stepUI/{id}',[StepUIController::class,'destroy']);
 
 Route::get('index1',[StepUIController::class,'index1'])->name('index1');
 Route::get('index2',[StepUIController::class,'index2'])->name('index2');

@@ -18,10 +18,27 @@ class StepUIController extends Controller
     
     public static function super_index()
     {
+        $stepUI=StepUI::where('completed',null)->first();
+        if($stepUI==null)
+           $step=0;
+        else if($stepUI->question1!=null||$stepUI->question2!=null||$stepUI->question4!=null||$stepUI->question5!=null||$stepUI->question6!=null)
+        $step=4;
+        else if($stepUI->zip_code!=null||$stepUI->email!=null)
+        $step=3;
+        else if($stepUI->address!=null||$stepUI->city!=null)
+           $step=2;
+        else if($stepUI->first_name!=null||$stepUI->last_name!=null)
+           $step=1;
+        
+       
+        
+            
         return array(
-            "stepUI" => StepUI::where('completed',null)->first(),
+            "step"=>$step,
+            "stepUI" => $stepUI,
             "stepUIs" => StepUI::where('completed','!=',null)->get(),
           );
+
     }
 
     public  function index()
@@ -184,8 +201,9 @@ class StepUIController extends Controller
      * @param  \App\Models\StepUI  $stepUI
      * @return \Illuminate\Http\Response
      */
-    public function destroy(StepUI $stepUI)
+    public function destroy($id)
     {
-        //
+        StepUI::find($id)->delete();
+        return redirect()->back();
     }
 }
